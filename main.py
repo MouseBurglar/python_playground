@@ -68,17 +68,18 @@ def drawMatches(img1, kp1, img2, kp2, matches):
         cv2.line(out, (int(x1), int(y1)), (int(x2)+cols1, int(y2)), (255, 0, 0), 1)
 
     # Show the image
+    cv2.namedWindow('Matched Features', cv2.WINDOW_NORMAL)
     cv2.imshow('Matched Features', out)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-img1 = cv2.imread('template.jpg', cv2.COLOR_RGB2GRAY)
-img2 = cv2.imread('watch.jpg', cv2.COLOR_RGB2GRAY)
+img1 = cv2.imread('template.jpg', 0)
+img2 = cv2.imread('watch.jpg', 0)
 
-surf = cv2.ORB()
+orb = cv2.ORB(1000, 1.2)
 
-kp1, des1 = surf.detectAndCompute(img1, None)
-kp2, des2 = surf.detectAndCompute(img2, None)
+kp1, des1 = orb.detectAndCompute(img1, None)
+kp2, des2 = orb.detectAndCompute(img2, None)
 
 bf = cv2.BFMatcher()
 matches = bf.match(des1, des2)
